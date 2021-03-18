@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.plcoding.currencyconverter.databinding.ActivityMainBinding
 import com.plcoding.currencyconverter.main.MainViewModel
+import com.plcoding.currencyconverter.util.CurrencyEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -34,17 +35,17 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.conversion.collect { event ->
                 when(event) {
-                    is MainViewModel.CurrencyEvent.Success -> {
+                    is CurrencyEvent.Success -> {
                         binding.progressBar.isVisible = false
                         binding.tvResult.setTextColor(Color.BLACK)
                         binding.tvResult.text = event.resultText
                     }
-                    is MainViewModel.CurrencyEvent.Failure -> {
+                    is CurrencyEvent.Failure -> {
                         binding.progressBar.isVisible = false
                         binding.tvResult.setTextColor(Color.RED)
                         binding.tvResult.text = event.errorText
                     }
-                    is MainViewModel.CurrencyEvent.Loading -> {
+                    is CurrencyEvent.Loading -> {
                         binding.progressBar.isVisible = true
                     }
                     else -> Unit
